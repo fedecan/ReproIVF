@@ -1,3 +1,6 @@
+C:\Proyectos\ReproIVF\ReproIVF\ReproIVF.Shared\bin\TempBuild\ReproIVF.Shared.deps.json
+C:\Proyectos\ReproIVF\ReproIVF\ReproIVF.Shared\bin\TempBuild\ReproIVF.Shared.dll
+C:\Proyectos\ReproIVF\ReproIVF\ReproIVF.Shared\bin\TempBuild\ReproIVF.Shared.pdb
 C:\Proyectos\ReproIVF\ReproIVF\ReproIVF.Shared\bin\Debug\net8.0\ReproIVF.Shared.deps.json
 C:\Proyectos\ReproIVF\ReproIVF\ReproIVF.Shared\bin\Debug\net8.0\ReproIVF.Shared.dll
 C:\Proyectos\ReproIVF\ReproIVF\ReproIVF.Shared\bin\Debug\net8.0\ReproIVF.Shared.pdb
@@ -5,10 +8,8 @@ C:\Proyectos\ReproIVF\ReproIVF\ReproIVF.Shared\obj\Debug\net8.0\ReproIVF.Shared.
 C:\Proyectos\ReproIVF\ReproIVF\ReproIVF.Shared\obj\Debug\net8.0\ReproIVF.Shared.AssemblyInfoInputs.cache
 C:\Proyectos\ReproIVF\ReproIVF\ReproIVF.Shared\obj\Debug\net8.0\ReproIVF.Shared.AssemblyInfo.cs
 C:\Proyectos\ReproIVF\ReproIVF\ReproIVF.Shared\obj\Debug\net8.0\ReproIVF.Shared.csproj.CoreCompileInputs.cache
+C:\Proyectos\ReproIVF\ReproIVF\ReproIVF.Shared\obj\Debug\net8.0\ReproIVF.Shared.sourcelink.json
 C:\Proyectos\ReproIVF\ReproIVF\ReproIVF.Shared\obj\Debug\net8.0\ReproIVF.Shared.dll
 C:\Proyectos\ReproIVF\ReproIVF\ReproIVF.Shared\obj\Debug\net8.0\refint\ReproIVF.Shared.dll
 C:\Proyectos\ReproIVF\ReproIVF\ReproIVF.Shared\obj\Debug\net8.0\ReproIVF.Shared.pdb
 C:\Proyectos\ReproIVF\ReproIVF\ReproIVF.Shared\obj\Debug\net8.0\ref\ReproIVF.Shared.dll
-C:\Proyectos\ReproIVF\ReproIVF\ReproIVF.Shared\bin\TempBuild\ReproIVF.Shared.deps.json
-C:\Proyectos\ReproIVF\ReproIVF\ReproIVF.Shared\bin\TempBuild\ReproIVF.Shared.dll
-C:\Proyectos\ReproIVF\ReproIVF\ReproIVF.Shared\bin\TempBuild\ReproIVF.Shared.pdb

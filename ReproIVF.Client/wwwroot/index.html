@@ -38,6 +38,68 @@
             document.body.removeChild(link);
             URL.revokeObjectURL(url);
         };
+
+        window.reproPwa = (() => {
+            let deferredPrompt = null;
+            let dotnetRef = null;
+            let initialized = false;
+
+            const isIos = () => /iphone|ipad|ipod/i.test(navigator.userAgent);
+            const isStandalone = () =>
+                window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+
+            const notifyStateChanged = () => {
+                if (dotnetRef) {
+                    dotnetRef.invokeMethodAsync("NotifyPwaStateChanged");
+                }
+            };
+
+            const onBeforeInstallPrompt = (event) => {
+                event.preventDefault();
+                deferredPrompt = event;
+                notifyStateChanged();
+            };
+
+            const onAppInstalled = () => {
+                deferredPrompt = null;
+                notifyStateChanged();
+            };
+
+            return {
+                initialize: (dotnetObjectRef) => {
+                    dotnetRef = dotnetObjectRef;
+                    if (initialized) {
+                        return;
+                    }
+
+                    window.addEventListener("beforeinstallprompt", onBeforeInstallPrompt);
+                    window.addEventListener("appinstalled", onAppInstalled);
+                    initialized = true;
+                },
+                dispose: () => {
+                    window.removeEventListener("beforeinstallprompt", onBeforeInstallPrompt);
+                    window.removeEventListener("appinstalled", onAppInstalled);
+                    dotnetRef = null;
+                    initialized = false;
+                },
+                getState: () => ({
+                    isIos: isIos(),
+                    isStandalone: isStandalone(),
+                    canInstall: deferredPrompt !== null
+                }),
+                promptInstall: async () => {
+                    if (!deferredPrompt) {
+                        return false;
+                    }
+
+                    deferredPrompt.prompt();
+                    const choice = await deferredPrompt.userChoice;
+                    deferredPrompt = null;
+                    notifyStateChanged();
+                    return choice && choice.outcome === "accepted";
+                }
+            };
+        })();
     </script>
     <script src="_framework/blazor.webassembly.js"></script>
     <script>navigator.serviceWorker.register('service-worker.js');</script>

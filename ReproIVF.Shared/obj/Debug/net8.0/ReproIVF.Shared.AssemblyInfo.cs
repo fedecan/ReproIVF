@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ReproIVF.Shared")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e2a74ad4cc36e4f6b53a388b1e101660f335c7cc")]
 [assembly: System.Reflection.AssemblyProductAttribute("ReproIVF.Shared")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ReproIVF.Shared")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

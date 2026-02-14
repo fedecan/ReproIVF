@@ -1,7 +1,9 @@
 @inherits LayoutComponentBase
 @implements IDisposable
+@implements IAsyncDisposable
 @inject AuthService Auth
 @inject NavigationManager Nav
+@inject IJSRuntime JS
 
 <div class="layout">
     <aside class="sidebar">
@@ -33,20 +35,67 @@
             }
         </nav>
     </aside>
+    @if (ShowPwaBanner)
+    {
+        <div class="pwa-banner">
+            @if (CanInstallPwa)
+            {
+                <span>Instala la app en tu telefono para acceso rapido.</span>
+                <button type="button" class="pwa-install-btn" @onclick="InstallPwaAsync">Instalar app</button>
+            }
+            else if (IsIosDevice)
+            {
+                <span>iPhone/iPad: Safari > Compartir > Agregar a pantalla de inicio.</span>
+            }
+            <button type="button" class="pwa-dismiss-btn" aria-label="Ocultar" @onclick="DismissPwaBanner">X</button>
+        </div>
+    }
     <main>
         @Body
     </main>
 </div>
 
 @code {
+    private DotNetObjectReference<MainLayout>? _dotNetRef;
+    private bool _pwaBannerDismissed;
+    private bool _pwaInitialized;
+    private bool IsIosDevice { get; set; }
+    private bool IsStandalone { get; set; }
+    private bool CanInstallPwa { get; set; }
+    private bool ShowPwaBanner => !_pwaBannerDismissed && !IsStandalone && (CanInstallPwa || IsIosDevice);
+
     protected override void OnInitialized()
     {
         Auth.Changed += HandleAuthChanged;
     }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender || _pwaInitialized)
+        {
+            return;
+        }
+
+        _dotNetRef = DotNetObjectReference.Create(this);
+        await JS.InvokeVoidAsync("reproPwa.initialize", _dotNetRef);
+        await RefreshPwaStateAsync();
+        _pwaInitialized = true;
+        StateHasChanged();
+    }
+
     public void Dispose()
     {
         Auth.Changed -= HandleAuthChanged;
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_pwaInitialized)
+        {
+            await JS.InvokeVoidAsync("reproPwa.dispose");
+        }
+
+        _dotNetRef?.Dispose();
     }
 
     private async Task LogoutAsync()
@@ -58,5 +107,43 @@
     private void HandleAuthChanged()
     {
         InvokeAsync(StateHasChanged);
+    }
+
+    [JSInvokable]
+    public async Task NotifyPwaStateChanged()
+    {
+        await RefreshPwaStateAsync();
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task InstallPwaAsync()
+    {
+        var installed = await JS.InvokeAsync<bool>("reproPwa.promptInstall");
+        if (installed)
+        {
+            _pwaBannerDismissed = true;
+        }
+
+        await RefreshPwaStateAsync();
+    }
+
+    private void DismissPwaBanner()
+    {
+        _pwaBannerDismissed = true;
+    }
+
+    private async Task RefreshPwaStateAsync()
+    {
+        var state = await JS.InvokeAsync<PwaInstallState>("reproPwa.getState");
+        IsIosDevice = state.IsIos;
+        IsStandalone = state.IsStandalone;
+        CanInstallPwa = state.CanInstall;
+    }
+
+    private sealed class PwaInstallState
+    {
+        public bool IsIos { get; set; }
+        public bool IsStandalone { get; set; }
+        public bool CanInstall { get; set; }
     }
 }

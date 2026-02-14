@@ -152,3 +152,6 @@ StyleCopReport.xml
 *.temp
 *.bak
 *.swp
+/ReproIVF.Shared/bin
+/ReproIVF.Shared/bin
+/ReproIVF.WebAPI/bin
