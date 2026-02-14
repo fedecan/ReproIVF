@@ -1,0 +1,154 @@
+###############################################################################
+# .NET / Visual Studio
+###############################################################################
+
+# Build results
+**/bin/
+**/obj/
+**/[Dd]ebug*/
+**/[Rr]elease*/
+**/[Xx]64/
+**/[Xx]86/
+**/[Aa]ny[Cc][Pp][Uu]/
+**/[Bb]uild/
+**/[Bb]uilds/
+**/[Ll]og/
+**/[Ll]ogs/
+**/TestResults/
+**/*.trx
+**/*.coverage
+**/*.coveragexml
+
+# Visual Studio files
+.vs/
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider / JetBrains
+.idea/
+*.sln.iml
+
+# VS Code
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+
+# OS
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# NuGet
+**/packages/
+*.nupkg
+*.snupkg
+# Uncomment if you never want to commit any nuget.config
+# nuget.config
+
+# Publish / artifacts
+**/publish/
+**/app.publish/
+**/*.Publish.xml
+**/*.pubxml
+**/*.pubxml.user
+**/artifacts/
+**/*.pdb
+**/*.cache
+**/*.zip
+**/*.rar
+**/*.7z
+
+# ASP.NET / tooling
+**/wwwroot/lib/
+
+# EF / Migrations designer (optional)
+# Keep migrations, ignore designer user files
+**/*.dbmdl
+**/*.jfm
+
+# Local databases / dev stores
+**/*.mdf
+**/*.ldf
+**/*.ndf
+**/*.sqlite
+**/*.db
+**/*.db-shm
+**/*.db-wal
+
+# Azure / local emulators
+.azure/
+**/App_Data/
+
+# Logs
+*.log
+
+###############################################################################
+# Secrets / environment
+###############################################################################
+
+# User-specific appsettings (common pattern)
+**/appsettings.Development.json
+**/appsettings.Local.json
+**/appsettings.*.local.json
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Certificates / keys
+**/*.pfx
+**/*.p12
+**/*.pem
+**/*.key
+**/*.crt
+**/*.cer
+**/*.jks
+
+# Secrets files
+**/secrets.json
+
+###############################################################################
+# Node / Frontend (si tenés Angular/React dentro de la solution)
+###############################################################################
+**/node_modules/
+**/dist/
+**/.angular/
+**/.cache/
+**/.parcel-cache/
+**/coverage/
+**/npm-debug.log*
+**/yarn-debug.log*
+**/yarn-error.log*
+
+###############################################################################
+# Docker
+###############################################################################
+**/.docker/
+**/docker-compose.override.yml
+
+###############################################################################
+# Misc
+###############################################################################
+# ReSharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# StyleCop
+StyleCopReport.xml
+
+# BenchmarkDotNet
+**/BenchmarkDotNet.Artifacts/
+
+# Temporary
+*.tmp
+*.temp
+*.bak
+*.swp
