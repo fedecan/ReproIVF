@@ -1,0 +1,145 @@
+@page "/technicians"
+
+<PageTitle>Technicians</PageTitle>
+
+<h1>Technicians</h1>
+
+@if (isLoading)
+{
+    <p>Loading...</p>
+}
+else if (!string.IsNullOrWhiteSpace(error))
+{
+    <p class="error">@error</p>
+}
+else
+{
+    <section class="panel">
+        <h2>New / Edit Technician</h2>
+        <EditForm Model="@form" OnValidSubmit="SaveAsync">
+            <div class="grid">
+                <label>Name</label>
+                <InputText @bind-Value="form.Name" />
+            </div>
+            <div class="actions">
+                <button type="submit">@((editingId.HasValue) ? "Update" : "Create")</button>
+                <button type="button" class="secondary" @onclick="ResetForm">Clear</button>
+            </div>
+        </EditForm>
+    </section>
+
+    <section class="panel">
+        <h2>Technicians List</h2>
+        <table class="list">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in technicians)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Name</td>
+                        <td class="row-actions">
+                            <button type="button" class="icon-btn" title="Edit" @onclick="() => StartEdit(item)">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zm2.92 2.33H5v-.92l9.06-9.06.92.92L5.92 19.58zM20.71 7.04a1.003 1.003 0 0 0 0-1.42L18.37 3.29a1.003 1.003 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.83z"></path>
+                                </svg>
+                            </button>
+                            <button type="button" class="icon-btn danger" title="Delete" @onclick="() => DeleteAsync(item.Id)">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M6 7h12l-1 14H7L6 7zm3 2v10h2V9H9zm4 0v10h2V9h-2zM9 4h6l1 2h4v2H4V6h4l1-2z"></path>
+                                </svg>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </section>
+}
+
+@code {
+    [Inject] public ApiClient Api { get; set; } = default!;
+
+    private bool isLoading = true;
+    private string? error;
+    private List<Technician> technicians = new();
+    private NameUpsert form = new();
+    private int? editingId;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            await LoadAsync();
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async Task LoadAsync()
+    {
+        technicians = await Api.GetTechniciansAdminAsync();
+    }
+
+    private async Task SaveAsync()
+    {
+        error = null;
+        try
+        {
+            if (editingId.HasValue)
+            {
+                await Api.UpdateTechnicianAsync(editingId.Value, form);
+            }
+            else
+            {
+                await Api.CreateTechnicianAsync(form);
+            }
+
+            await LoadAsync();
+            ResetForm();
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+    }
+
+    private async Task DeleteAsync(int id)
+    {
+        error = null;
+        try
+        {
+            await Api.DeleteTechnicianAsync(id);
+            await LoadAsync();
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+    }
+
+    private void StartEdit(Technician item)
+    {
+        editingId = item.Id;
+        form = new NameUpsert { Name = item.Name };
+    }
+
+    private void ResetForm()
+    {
+        editingId = null;
+        form = new NameUpsert();
+    }
+}
+

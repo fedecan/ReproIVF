@@ -1,0 +1,37 @@
+@inject NavigationManager Nav
+@inject AuthService Auth
+
+<Router AppAssembly="@typeof(App).Assembly" OnNavigateAsync="HandleNavigateAsync">
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+    </Found>
+    <NotFound>
+        <PageTitle>Not found</PageTitle>
+        <LayoutView Layout="@typeof(MainLayout)">
+            <p role="alert">Sorry, there's nothing at this address.</p>
+        </LayoutView>
+    </NotFound>
+</Router>
+
+@code {
+    private Task HandleNavigateAsync(NavigationContext args)
+    {
+        var path = "/" + args.Path.Trim('/');
+        if (path == "//")
+        {
+            path = "/";
+        }
+
+        if (!Auth.CanAccessPath(path))
+        {
+            var target = Auth.IsAuthenticated ? "/" : "/login";
+            if (!string.Equals(path, target, StringComparison.OrdinalIgnoreCase))
+            {
+                Nav.NavigateTo(target, replace: true);
+            }
+        }
+
+        return Task.CompletedTask;
+    }
+}

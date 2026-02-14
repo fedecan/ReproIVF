@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "lZZet2Fl527vuirQ3Rl+98+TCp1mLc7RuhB8nnkkgNE=",
+  "Source": "ReproIVF.WebAPI",
+  "BasePath": "_content/ReproIVF.WebAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

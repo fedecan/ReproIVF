@@ -1,0 +1,180 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Proyectos\\ReproIVF\\ReproIVF\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A1C8214E-F750-4ED4-B84B-C131549D90D7}|ReproIVF.WebAPI\\ReproIVF.WebAPI.csproj|c:\\proyectos\\reproivf\\reproivf\\reproivf.webapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A1C8214E-F750-4ED4-B84B-C131549D90D7}|ReproIVF.WebAPI\\ReproIVF.WebAPI.csproj|solutionrelative:reproivf.webapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A1C8214E-F750-4ED4-B84B-C131549D90D7}|ReproIVF.WebAPI\\ReproIVF.WebAPI.csproj|c:\\proyectos\\reproivf\\reproivf\\reproivf.webapi\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{A1C8214E-F750-4ED4-B84B-C131549D90D7}|ReproIVF.WebAPI\\ReproIVF.WebAPI.csproj|solutionrelative:reproivf.webapi\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9A296EE1-8D4D-4725-A6B0-70DCA03F63E4}|ReproIVF.Client\\ReproIVF.Client.csproj|c:\\proyectos\\reproivf\\reproivf\\reproivf.client\\wwwroot\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{9A296EE1-8D4D-4725-A6B0-70DCA03F63E4}|ReproIVF.Client\\ReproIVF.Client.csproj|solutionrelative:reproivf.client\\wwwroot\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9A296EE1-8D4D-4725-A6B0-70DCA03F63E4}|ReproIVF.Client\\ReproIVF.Client.csproj|c:\\proyectos\\reproivf\\reproivf\\reproivf.client\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9A296EE1-8D4D-4725-A6B0-70DCA03F63E4}|ReproIVF.Client\\ReproIVF.Client.csproj|solutionrelative:reproivf.client\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9A296EE1-8D4D-4725-A6B0-70DCA03F63E4}|ReproIVF.Client\\ReproIVF.Client.csproj|c:\\proyectos\\reproivf\\reproivf\\reproivf.client\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{9A296EE1-8D4D-4725-A6B0-70DCA03F63E4}|ReproIVF.Client\\ReproIVF.Client.csproj|solutionrelative:reproivf.client\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A1C8214E-F750-4ED4-B84B-C131549D90D7}|ReproIVF.WebAPI\\ReproIVF.WebAPI.csproj|c:\\proyectos\\reproivf\\reproivf\\reproivf.webapi\\scripts\\001-create-users-auth.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}",
+      "RelativeMoniker": "D:0:0:{A1C8214E-F750-4ED4-B84B-C131549D90D7}|ReproIVF.WebAPI\\ReproIVF.WebAPI.csproj|solutionrelative:reproivf.webapi\\scripts\\001-create-users-auth.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A1C8214E-F750-4ED4-B84B-C131549D90D7}|ReproIVF.WebAPI\\ReproIVF.WebAPI.csproj|c:\\proyectos\\reproivf\\reproivf\\reproivf.webapi\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A1C8214E-F750-4ED4-B84B-C131549D90D7}|ReproIVF.WebAPI\\ReproIVF.WebAPI.csproj|solutionrelative:reproivf.webapi\\controllers\\userscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A1C8214E-F750-4ED4-B84B-C131549D90D7}|ReproIVF.WebAPI\\ReproIVF.WebAPI.csproj|c:\\proyectos\\reproivf\\reproivf\\reproivf.webapi\\data\\seed\\seeddata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A1C8214E-F750-4ED4-B84B-C131549D90D7}|ReproIVF.WebAPI\\ReproIVF.WebAPI.csproj|solutionrelative:reproivf.webapi\\data\\seed\\seeddata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A1C8214E-F750-4ED4-B84B-C131549D90D7}|ReproIVF.WebAPI\\ReproIVF.WebAPI.csproj|c:\\proyectos\\reproivf\\reproivf\\reproivf.webapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{A1C8214E-F750-4ED4-B84B-C131549D90D7}|ReproIVF.WebAPI\\ReproIVF.WebAPI.csproj|solutionrelative:reproivf.webapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A1C8214E-F750-4ED4-B84B-C131549D90D7}|ReproIVF.WebAPI\\ReproIVF.WebAPI.csproj|c:\\proyectos\\reproivf\\reproivf\\reproivf.webapi\\scripts\\001-create-users-auth.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|CodeFrame",
+      "RelativeMoniker": "D:0:0:{A1C8214E-F750-4ED4-B84B-C131549D90D7}|ReproIVF.WebAPI\\ReproIVF.WebAPI.csproj|solutionrelative:reproivf.webapi\\scripts\\001-create-users-auth.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|CodeFrame"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "SeedData.cs",
+              "DocumentMoniker": "C:\\Proyectos\\ReproIVF\\ReproIVF\\ReproIVF.WebAPI\\Data\\Seed\\SeedData.cs",
+              "RelativeDocumentMoniker": "ReproIVF.WebAPI\\Data\\Seed\\SeedData.cs",
+              "ToolTip": "C:\\Proyectos\\ReproIVF\\ReproIVF\\ReproIVF.WebAPI\\Data\\Seed\\SeedData.cs",
+              "RelativeToolTip": "ReproIVF.WebAPI\\Data\\Seed\\SeedData.cs",
+              "ViewState": "AgIAAIAAAAAAAAAAAAAkwIUAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-13T13:32:55.932Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{13b12e3e-c1b4-4539-9371-4fe9a0d523fc}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Proyectos\\ReproIVF\\ReproIVF\\ReproIVF.WebAPI\\Program.cs",
+              "RelativeDocumentMoniker": "ReproIVF.WebAPI\\Program.cs",
+              "ToolTip": "C:\\Proyectos\\ReproIVF\\ReproIVF\\ReproIVF.WebAPI\\Program.cs",
+              "RelativeToolTip": "ReproIVF.WebAPI\\Program.cs",
+              "ViewState": "AgIAADAAAAAAAAAAAAAAAEMAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-14T03:27:14.302Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Proyectos\\ReproIVF\\ReproIVF\\ReproIVF.Client\\wwwroot\\appsettings.json",
+              "RelativeDocumentMoniker": "ReproIVF.Client\\wwwroot\\appsettings.json",
+              "ToolTip": "C:\\Proyectos\\ReproIVF\\ReproIVF\\ReproIVF.Client\\wwwroot\\appsettings.json*",
+              "RelativeToolTip": "ReproIVF.Client\\wwwroot\\appsettings.json*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-02-14T03:03:35.069Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Proyectos\\ReproIVF\\ReproIVF\\ReproIVF.Client\\Program.cs",
+              "RelativeDocumentMoniker": "ReproIVF.Client\\Program.cs",
+              "ToolTip": "C:\\Proyectos\\ReproIVF\\ReproIVF\\ReproIVF.Client\\Program.cs",
+              "RelativeToolTip": "ReproIVF.Client\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-14T03:03:02.951Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "C:\\Proyectos\\ReproIVF\\ReproIVF\\ReproIVF.WebAPI\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "ReproIVF.WebAPI\\Properties\\launchSettings.json",
+              "ToolTip": "C:\\Proyectos\\ReproIVF\\ReproIVF\\ReproIVF.WebAPI\\Properties\\launchSettings.json",
+              "RelativeToolTip": "ReproIVF.WebAPI\\Properties\\launchSettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-02-14T02:44:39.172Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "001-create-users-auth.sql ",
+              "DocumentMoniker": "C:\\Proyectos\\ReproIVF\\ReproIVF\\ReproIVF.WebAPI\\Scripts\\001-create-users-auth.sql",
+              "RelativeDocumentMoniker": "ReproIVF.WebAPI\\Scripts\\001-create-users-auth.sql",
+              "ToolTip": "C:\\Proyectos\\ReproIVF\\ReproIVF\\ReproIVF.WebAPI\\Scripts\\001-create-users-auth.sql",
+              "RelativeToolTip": "ReproIVF.WebAPI\\Scripts\\001-create-users-auth.sql",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2026-02-14T02:04:31.272Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "UsersController.cs",
+              "DocumentMoniker": "C:\\Proyectos\\ReproIVF\\ReproIVF\\ReproIVF.WebAPI\\Controllers\\UsersController.cs",
+              "RelativeDocumentMoniker": "ReproIVF.WebAPI\\Controllers\\UsersController.cs",
+              "ToolTip": "C:\\Proyectos\\ReproIVF\\ReproIVF\\ReproIVF.WebAPI\\Controllers\\UsersController.cs",
+              "RelativeToolTip": "ReproIVF.WebAPI\\Controllers\\UsersController.cs",
+              "ViewState": "AgIAABEAAAAAAAAAAAAIwBYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-14T02:00:52.612Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "C:\\Proyectos\\ReproIVF\\ReproIVF\\ReproIVF.Client\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "ReproIVF.Client\\Properties\\launchSettings.json",
+              "ToolTip": "C:\\Proyectos\\ReproIVF\\ReproIVF\\ReproIVF.Client\\Properties\\launchSettings.json",
+              "RelativeToolTip": "ReproIVF.Client\\Properties\\launchSettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-02-13T23:06:33.73Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Proyectos\\ReproIVF\\ReproIVF\\ReproIVF.WebAPI\\appsettings.json",
+              "RelativeDocumentMoniker": "ReproIVF.WebAPI\\appsettings.json",
+              "ToolTip": "C:\\Proyectos\\ReproIVF\\ReproIVF\\ReproIVF.WebAPI\\appsettings.json",
+              "RelativeToolTip": "ReproIVF.WebAPI\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-02-12T16:35:17.266Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

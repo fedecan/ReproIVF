@@ -1,0 +1,16 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "ReproIVF.WebAPI\\ReproIVF.WebAPI.csproj",
+        "Action": "Start",
+        "DebugTarget": "https"
+      },
+      {
+        "Path": "ReproIVF.Client\\ReproIVF.Client.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

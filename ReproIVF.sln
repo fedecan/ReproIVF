@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35728.132 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReproIVF.WebAPI", "ReproIVF.WebAPI\ReproIVF.WebAPI.csproj", "{A1C8214E-F750-4ED4-B84B-C131549D90D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReproIVF.Client", "ReproIVF.Client\ReproIVF.Client.csproj", "{9A296EE1-8D4D-4725-A6B0-70DCA03F63E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReproIVF.Shared", "ReproIVF.Shared\ReproIVF.Shared.csproj", "{3A74827C-3972-4696-B2E4-A13BE12C23F2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A1C8214E-F750-4ED4-B84B-C131549D90D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1C8214E-F750-4ED4-B84B-C131549D90D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1C8214E-F750-4ED4-B84B-C131549D90D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1C8214E-F750-4ED4-B84B-C131549D90D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9A296EE1-8D4D-4725-A6B0-70DCA03F63E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A296EE1-8D4D-4725-A6B0-70DCA03F63E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A296EE1-8D4D-4725-A6B0-70DCA03F63E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A296EE1-8D4D-4725-A6B0-70DCA03F63E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A74827C-3972-4696-B2E4-A13BE12C23F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A74827C-3972-4696-B2E4-A13BE12C23F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A74827C-3972-4696-B2E4-A13BE12C23F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A74827C-3972-4696-B2E4-A13BE12C23F2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

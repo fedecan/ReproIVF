@@ -1,0 +1,62 @@
+@inherits LayoutComponentBase
+@implements IDisposable
+@inject AuthService Auth
+@inject NavigationManager Nav
+
+<div class="layout">
+    <aside class="sidebar">
+        <div class="brand">
+            <h2>ReproIVF</h2>
+        </div>
+        <nav>
+            @if (!Auth.IsAuthenticated)
+            {
+                <a href="/login">Login</a>
+            }
+            else
+            {
+                <a href="/">Implants</a>
+
+                @if (Auth.IsAdmin)
+                {
+                    <a href="/clients">Clients</a>
+                    <a href="/donors">Donors</a>
+                    <a href="/bulls">Bulls</a>
+                    <a href="/technicians">Technicians</a>
+                    <a href="/programs">Programs</a>
+                    <a href="/semen-types">Semen Types</a>
+                    <a href="/preservation-methods">Preservation Methods</a>
+                    <a href="/users">Users</a>
+                }
+
+                <button type="button" class="nav-logout" @onclick="LogoutAsync">Logout (@Auth.Username)</button>
+            }
+        </nav>
+    </aside>
+    <main>
+        @Body
+    </main>
+</div>
+
+@code {
+    protected override void OnInitialized()
+    {
+        Auth.Changed += HandleAuthChanged;
+    }
+
+    public void Dispose()
+    {
+        Auth.Changed -= HandleAuthChanged;
+    }
+
+    private async Task LogoutAsync()
+    {
+        await Auth.LogoutAsync();
+        Nav.NavigateTo("/login", replace: true);
+    }
+
+    private void HandleAuthChanged()
+    {
+        InvokeAsync(StateHasChanged);
+    }
+}

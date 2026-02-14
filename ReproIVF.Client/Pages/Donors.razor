@@ -1,0 +1,174 @@
+@page "/donors"
+
+<PageTitle>Donors</PageTitle>
+
+<h1>Donors</h1>
+
+@if (isLoading)
+{
+    <p>Loading...</p>
+}
+else if (!string.IsNullOrWhiteSpace(error))
+{
+    <p class="error">@error</p>
+}
+else
+{
+    <section class="panel">
+        <h2>New / Edit Donor</h2>
+        <EditForm Model="@form" OnValidSubmit="SaveAsync">
+            <div class="grid">
+                <label>Code</label>
+                <InputText @bind-Value="form.Code" />
+
+                <label>Owner Name</label>
+                <InputText @bind-Value="form.OwnerName" />
+
+                <label>Program</label>
+                <InputSelect @bind-Value="form.ProgramId">
+                    <option value="">-- select --</option>
+                    @foreach (var item in programs)
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                </InputSelect>
+
+                <label>Embryo Count</label>
+                <InputNumber @bind-Value="form.EmbryoCount" />
+            </div>
+            <div class="actions">
+                <button type="submit">@((editingId.HasValue) ? "Update" : "Create")</button>
+                <button type="button" class="secondary" @onclick="ResetForm">Clear</button>
+            </div>
+        </EditForm>
+    </section>
+
+    <section class="panel">
+        <h2>Donors List</h2>
+        <table class="list">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Code</th>
+                    <th>Owner</th>
+                    <th>Program</th>
+                    <th>Embryo Count</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in donors)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Code</td>
+                        <td>@item.OwnerName</td>
+                        <td>@item.Program?.Name</td>
+                        <td>@item.EmbryoCount</td>
+                        <td class="row-actions">
+                            <button type="button" class="icon-btn" title="Edit" @onclick="() => StartEdit(item)">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zm2.92 2.33H5v-.92l9.06-9.06.92.92L5.92 19.58zM20.71 7.04a1.003 1.003 0 0 0 0-1.42L18.37 3.29a1.003 1.003 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.83z"></path>
+                                </svg>
+                            </button>
+                            <button type="button" class="icon-btn danger" title="Delete" @onclick="() => DeleteAsync(item.Id)">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M6 7h12l-1 14H7L6 7zm3 2v10h2V9H9zm4 0v10h2V9h-2zM9 4h6l1 2h4v2H4V6h4l1-2z"></path>
+                                </svg>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </section>
+}
+
+@code {
+    [Inject] public ApiClient Api { get; set; } = default!;
+
+    private bool isLoading = true;
+    private string? error;
+    private List<Donor> donors = new();
+    private List<ProgramEntity> programs = new();
+    private DonorUpsert form = new();
+    private int? editingId;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            await LoadAsync();
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async Task LoadAsync()
+    {
+        programs = await Api.GetProgramsAdminAsync();
+        donors = await Api.GetDonorsAdminAsync();
+    }
+
+    private async Task SaveAsync()
+    {
+        error = null;
+        try
+        {
+            if (editingId.HasValue)
+            {
+                await Api.UpdateDonorAsync(editingId.Value, form);
+            }
+            else
+            {
+                await Api.CreateDonorAsync(form);
+            }
+
+            await LoadAsync();
+            ResetForm();
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+    }
+
+    private async Task DeleteAsync(int id)
+    {
+        error = null;
+        try
+        {
+            await Api.DeleteDonorAsync(id);
+            await LoadAsync();
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+    }
+
+    private void StartEdit(Donor item)
+    {
+        editingId = item.Id;
+        form = new DonorUpsert
+        {
+            Code = item.Code,
+            OwnerName = item.OwnerName,
+            ProgramId = item.ProgramId,
+            EmbryoCount = item.EmbryoCount
+        };
+    }
+
+    private void ResetForm()
+    {
+        editingId = null;
+        form = new DonorUpsert();
+    }
+}
+

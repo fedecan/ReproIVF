@@ -1,0 +1,663 @@
+@page "/"
+@using Microsoft.JSInterop
+
+<PageTitle>Implants</PageTitle>
+
+<h1>Implants</h1>
+
+@if (isLoading)
+{
+    <p>Loading...</p>
+}
+else if (!string.IsNullOrWhiteSpace(error))
+{
+    <p class="error">@error</p>
+}
+else
+{
+    @if (Auth.IsAdmin)
+    {
+        <section class="panel">
+            <h2>New / Edit Implant</h2>
+            <EditForm Model="@form" OnValidSubmit="SaveAsync">
+                <div class="grid">
+                    <label>ID</label>
+                    <InputText Value="@(editingId?.ToString() ?? string.Empty)" readonly />
+
+                    <label>Program</label>
+                    <InputSelect @bind-Value="form.ProgramId">
+                        <option value="">-- select --</option>
+                        @foreach (var item in programs)
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    </InputSelect>
+
+                    <label>Owner</label>
+                    <InputSelect @bind-Value="form.OwnerId">
+                        <option value="">-- select --</option>
+                        @foreach (var item in clients)
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    </InputSelect>
+
+                    <label>OPU Date</label>
+                    <InputDate @bind-Value="form.OpuDate" class="date" @onchange="OnOpuDateChanged" />
+
+                    <label>Fert Date</label>
+                    <InputDate @bind-Value="form.FertDate" class="date" />
+
+                    <label>Freezing Date</label>
+                    <InputDate @bind-Value="form.FreezingDate" class="date" />
+
+                    <label>Straw ID</label>
+                    <InputNumber @bind-Value="form.StrawId" />
+
+                    <label>Donor</label>
+                    <InputSelect @bind-Value="form.DonorId">
+                        <option value="">-- select --</option>
+                        @foreach (var item in donors)
+                        {
+                            <option value="@item.Id">@item.Code</option>
+                        }
+                    </InputSelect>
+
+                    <label>Bull</label>
+                    <InputSelect @bind-Value="form.BullId">
+                        <option value="">-- select --</option>
+                        @foreach (var item in bulls)
+                        {
+                            <option value="@item.Id">@item.Name (@item.Code)</option>
+                        }
+                    </InputSelect>
+
+                    <label>Semen</label>
+                    <InputSelect @bind-Value="form.SemenTypeId">
+                        <option value="">-- select --</option>
+                        @foreach (var item in semenTypes)
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    </InputSelect>
+
+                    <label>Fresh/DT/Vit</label>
+                    <InputSelect @bind-Value="form.PreservationMethodId">
+                        <option value="">-- select --</option>
+                        @foreach (var item in preservationMethods)
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    </InputSelect>
+
+                    <label>Implant Date</label>
+                    <InputDate @bind-Value="form.ImplantDate" class="date" />
+
+                    <label>Recip ID</label>
+                    <InputText @bind-Value="form.RecipId" />
+
+                    <label>Technician</label>
+                    <InputSelect @bind-Value="form.TechnicianId">
+                        <option value="">-- select --</option>
+                        @foreach (var item in technicians)
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    </InputSelect>
+
+                    <label>In Calf</label>
+                    <InputSelect @bind-Value="form.InCalf">
+                        <option value="">-- select --</option>
+                        <option value="true">Yes</option>
+                        <option value="false">No</option>
+                    </InputSelect>
+                </div>
+
+                <div class="actions">
+                    <button type="submit">@((editingId.HasValue) ? "Update" : "Create")</button>
+                    <button type="button" class="secondary" @onclick="ResetForm">Clear</button>
+                </div>
+            </EditForm>
+        </section>
+    }
+
+    <section class="panel">
+        <h2>Implants List</h2>
+        <div class="list-controls">
+            <div>
+                <label>Page size</label>
+                <InputSelect @bind-Value="pageSize" @onchange="OnPageSizeChanged">
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </InputSelect>
+            </div>
+            <div class="pager">
+                <button type="button" class="secondary" @onclick="PrevPage" disabled="@IsFirstPage">Prev</button>
+                <span>Page @CurrentPage of @TotalPages</span>
+                <button type="button" class="secondary" @onclick="NextPage" disabled="@IsLastPage">Next</button>
+            </div>
+            <div>
+                <button type="button" class="secondary" @onclick="ClearColumnFilters">Clear column filters</button>
+            </div>
+            <div>
+                <button type="button" class="secondary" @onclick="ExportExcelAsync">Export Excel</button>
+            </div>
+        </div>
+        <table class="list">
+            <thead>
+                <tr class="sort-row">
+                    <th><button type="button" class="sort" @onclick="() => SetSort(nameof(Implant.Id))">ID @SortIcon(nameof(Implant.Id))</button></th>
+                    <th><button type="button" class="sort" @onclick="@(() => SetSort(ProgramSort))">Program @SortIcon(ProgramSort)</button></th>
+                    <th><button type="button" class="sort" @onclick="@(() => SetSort(OwnerSort))">Owner @SortIcon(OwnerSort)</button></th>
+                    <th><button type="button" class="sort" @onclick="() => SetSort(nameof(Implant.OpuDate))">OPU @SortIcon(nameof(Implant.OpuDate))</button></th>
+                    <th><button type="button" class="sort" @onclick="() => SetSort(nameof(Implant.FertDate))">Fert @SortIcon(nameof(Implant.FertDate))</button></th>
+                    <th><button type="button" class="sort" @onclick="() => SetSort(nameof(Implant.FreezingDate))">Freezing @SortIcon(nameof(Implant.FreezingDate))</button></th>
+                    <th><button type="button" class="sort" @onclick="() => SetSort(nameof(Implant.StrawId))">Straw @SortIcon(nameof(Implant.StrawId))</button></th>
+                    <th><button type="button" class="sort" @onclick="@(() => SetSort(DonorSort))">Donor @SortIcon(DonorSort)</button></th>
+                    <th><button type="button" class="sort" @onclick="@(() => SetSort(BullSort))">Bull @SortIcon(BullSort)</button></th>
+                    <th><button type="button" class="sort" @onclick="@(() => SetSort(SemenSort))">Semen @SortIcon(SemenSort)</button></th>
+                    <th><button type="button" class="sort" @onclick="@(() => SetSort(PreservationSort))">Fresh/DT/Vit @SortIcon(PreservationSort)</button></th>
+                    <th><button type="button" class="sort" @onclick="() => SetSort(nameof(Implant.ImplantDate))">Implant @SortIcon(nameof(Implant.ImplantDate))</button></th>
+                    <th><button type="button" class="sort" @onclick="() => SetSort(nameof(Implant.RecipId))">Recip @SortIcon(nameof(Implant.RecipId))</button></th>
+                    <th><button type="button" class="sort" @onclick="@(() => SetSort(TechnicianSort))">Technician @SortIcon(TechnicianSort)</button></th>
+                    <th><button type="button" class="sort" @onclick="() => SetSort(nameof(Implant.InCalf))">In Calf @SortIcon(nameof(Implant.InCalf))</button></th>
+                    @if (Auth.IsAdmin)
+                    {
+                        <th></th>
+                    }
+                </tr>
+                <tr class="filter-row">
+                    <th><input class="column-filter" @bind="idColumnFilter" @bind:event="oninput" placeholder="Search..." /></th>
+                    <th><input class="column-filter" @bind="programColumnFilter" @bind:event="oninput" placeholder="Search..." /></th>
+                    <th><input class="column-filter" @bind="ownerColumnFilter" @bind:event="oninput" placeholder="Search..." /></th>
+                    <th><input class="column-filter" @bind="opuDateColumnFilter" @bind:event="oninput" placeholder="dd/mm/yyyy" /></th>
+                    <th><input class="column-filter" @bind="fertDateColumnFilter" @bind:event="oninput" placeholder="dd/mm/yyyy" /></th>
+                    <th><input class="column-filter" @bind="freezingDateColumnFilter" @bind:event="oninput" placeholder="dd/mm/yyyy" /></th>
+                    <th><input class="column-filter" @bind="strawColumnFilter" @bind:event="oninput" placeholder="Search..." /></th>
+                    <th><input class="column-filter" @bind="donorColumnFilter" @bind:event="oninput" placeholder="Search..." /></th>
+                    <th><input class="column-filter" @bind="bullColumnFilter" @bind:event="oninput" placeholder="Search..." /></th>
+                    <th><input class="column-filter" @bind="semenColumnFilter" @bind:event="oninput" placeholder="Search..." /></th>
+                    <th><input class="column-filter" @bind="preservationColumnFilter" @bind:event="oninput" placeholder="Search..." /></th>
+                    <th><input class="column-filter" @bind="implantDateColumnFilter" @bind:event="oninput" placeholder="dd/mm/yyyy" /></th>
+                    <th><input class="column-filter" @bind="recipColumnFilter" @bind:event="oninput" placeholder="Search..." /></th>
+                    <th><input class="column-filter" @bind="technicianColumnFilter" @bind:event="oninput" placeholder="Search..." /></th>
+                    <th>
+                        <select class="column-filter" @bind="inCalfColumnFilter">
+                            <option value="">All</option>
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
+                            <option value="empty">Empty</option>
+                        </select>
+                    </th>
+                    @if (Auth.IsAdmin)
+                    {
+                        <th></th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in PagedImplants())
+                {
+                    <tr class="@(selectedId == item.Id ? "selected-row" : null)" @onclick="() => OnRowSelected(item)">
+                        <td>@item.Id</td>
+                        <td>@item.Program?.Name</td>
+                        <td>@item.Owner?.Name</td>
+                        <td>@FormatDate(item.OpuDate)</td>
+                        <td>@FormatDate(item.FertDate)</td>
+                        <td>@FormatDate(item.FreezingDate)</td>
+                        <td>@item.StrawId</td>
+                        <td>@item.Donor?.Code</td>
+                        <td>@(item.Bull?.Name) @(string.IsNullOrWhiteSpace(item.Bull?.Code) ? "" : $"({item.Bull?.Code})")</td>
+                        <td>@item.SemenType?.Name</td>
+                        <td>@item.PreservationMethod?.Name</td>
+                        <td>@FormatDate(item.ImplantDate)</td>
+                        <td>@item.RecipId</td>
+                        <td>@item.Technician?.Name</td>
+                        <td>@(item.InCalf.HasValue ? (item.InCalf.Value ? "Yes" : "No") : "")</td>
+                        @if (Auth.IsAdmin)
+                        {
+                            <td class="row-actions">
+                                <button type="button" class="icon-btn" title="Edit" @onclick:stopPropagation="true" @onclick="() => StartEdit(item)">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zm2.92 2.33H5v-.92l9.06-9.06.92.92L5.92 19.58zM20.71 7.04a1.003 1.003 0 0 0 0-1.42L18.37 3.29a1.003 1.003 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.83z"></path>
+                                    </svg>
+                                </button>
+                                <button type="button" class="icon-btn danger" title="Delete" @onclick:stopPropagation="true" @onclick="() => DeleteAsync(item.Id)">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M6 7h12l-1 14H7L6 7zm3 2v10h2V9H9zm4 0v10h2V9h-2zM9 4h6l1 2h4v2H4V6h4l1-2z"></path>
+                                    </svg>
+                                </button>
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </section>
+}
+
+@code {
+    [Inject] public ApiClient Api { get; set; } = default!;
+    [Inject] public IJSRuntime JS { get; set; } = default!;
+    [Inject] public AuthService Auth { get; set; } = default!;
+
+    private bool isLoading = true;
+    private string? error;
+
+    private List<ProgramEntity> programs = new();
+    private List<ClientEntity> clients = new();
+    private List<Donor> donors = new();
+    private List<Bull> bulls = new();
+    private List<Technician> technicians = new();
+    private List<SemenType> semenTypes = new();
+    private List<PreservationMethod> preservationMethods = new();
+    private List<Implant> implants = new();
+
+    private ImplantUpsert form = new();
+    private int? editingId;
+    private int? selectedId;
+    private int pageSize = 25;
+    private int pageIndex;
+    private const string ProgramSort = "Program";
+    private const string OwnerSort = "Owner";
+    private const string DonorSort = "Donor";
+    private const string BullSort = "Bull";
+    private const string SemenSort = "Semen";
+    private const string PreservationSort = "Preservation";
+    private const string TechnicianSort = "Technician";
+    private string sortColumn = nameof(Implant.Id);
+    private bool sortDesc;
+    private string idColumnFilter = "";
+    private string programColumnFilter = "";
+    private string ownerColumnFilter = "";
+    private string opuDateColumnFilter = "";
+    private string fertDateColumnFilter = "";
+    private string freezingDateColumnFilter = "";
+    private string strawColumnFilter = "";
+    private string donorColumnFilter = "";
+    private string bullColumnFilter = "";
+    private string semenColumnFilter = "";
+    private string preservationColumnFilter = "";
+    private string implantDateColumnFilter = "";
+    private string recipColumnFilter = "";
+    private string technicianColumnFilter = "";
+    private string inCalfColumnFilter = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            await LoadAllAsync();
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async Task LoadAllAsync()
+    {
+        programs = await Api.GetProgramsAsync();
+        clients = await Api.GetClientsAsync();
+        donors = await Api.GetDonorsAsync();
+        bulls = await Api.GetBullsAsync();
+        technicians = await Api.GetTechniciansAsync();
+        semenTypes = await Api.GetSemenTypesAsync();
+        preservationMethods = await Api.GetPreservationMethodsAsync();
+        implants = await Api.GetImplantsAsync();
+    }
+
+    private IEnumerable<Implant> FilteredImplants()
+    {
+        IEnumerable<Implant> query = implants;
+
+        if (!string.IsNullOrWhiteSpace(idColumnFilter))
+        {
+            var term = idColumnFilter.Trim();
+            query = query.Where(x => x.Id.ToString().Contains(term, StringComparison.OrdinalIgnoreCase));
+        }
+
+        if (!string.IsNullOrWhiteSpace(programColumnFilter))
+        {
+            var term = programColumnFilter.Trim();
+            query = query.Where(x => ContainsIgnoreCase(x.Program?.Name, term));
+        }
+
+        if (!string.IsNullOrWhiteSpace(ownerColumnFilter))
+        {
+            var term = ownerColumnFilter.Trim();
+            query = query.Where(x => ContainsIgnoreCase(x.Owner?.Name, term));
+        }
+
+        if (!string.IsNullOrWhiteSpace(opuDateColumnFilter))
+        {
+            var term = opuDateColumnFilter.Trim();
+            query = query.Where(x => DateMatches(x.OpuDate, term));
+        }
+
+        if (!string.IsNullOrWhiteSpace(fertDateColumnFilter))
+        {
+            var term = fertDateColumnFilter.Trim();
+            query = query.Where(x => DateMatches(x.FertDate, term));
+        }
+
+        if (!string.IsNullOrWhiteSpace(freezingDateColumnFilter))
+        {
+            var term = freezingDateColumnFilter.Trim();
+            query = query.Where(x => DateMatches(x.FreezingDate, term));
+        }
+
+        if (!string.IsNullOrWhiteSpace(strawColumnFilter))
+        {
+            var term = strawColumnFilter.Trim();
+            query = query.Where(x => x.StrawId.HasValue && x.StrawId.Value.ToString().Contains(term, StringComparison.OrdinalIgnoreCase));
+        }
+
+        if (!string.IsNullOrWhiteSpace(donorColumnFilter))
+        {
+            var term = donorColumnFilter.Trim();
+            query = query.Where(x => ContainsIgnoreCase(x.Donor?.Code, term));
+        }
+
+        if (!string.IsNullOrWhiteSpace(bullColumnFilter))
+        {
+            var term = bullColumnFilter.Trim();
+            query = query.Where(x =>
+                ContainsIgnoreCase(x.Bull?.Name, term) ||
+                ContainsIgnoreCase(x.Bull?.Code, term));
+        }
+
+        if (!string.IsNullOrWhiteSpace(semenColumnFilter))
+        {
+            var term = semenColumnFilter.Trim();
+            query = query.Where(x => ContainsIgnoreCase(x.SemenType?.Name, term));
+        }
+
+        if (!string.IsNullOrWhiteSpace(preservationColumnFilter))
+        {
+            var term = preservationColumnFilter.Trim();
+            query = query.Where(x => ContainsIgnoreCase(x.PreservationMethod?.Name, term));
+        }
+
+        if (!string.IsNullOrWhiteSpace(implantDateColumnFilter))
+        {
+            var term = implantDateColumnFilter.Trim();
+            query = query.Where(x => DateMatches(x.ImplantDate, term));
+        }
+
+        if (!string.IsNullOrWhiteSpace(recipColumnFilter))
+        {
+            var term = recipColumnFilter.Trim();
+            query = query.Where(x => ContainsIgnoreCase(x.RecipId, term));
+        }
+
+        if (!string.IsNullOrWhiteSpace(technicianColumnFilter))
+        {
+            var term = technicianColumnFilter.Trim();
+            query = query.Where(x => ContainsIgnoreCase(x.Technician?.Name, term));
+        }
+
+        query = inCalfColumnFilter switch
+        {
+            "yes" => query.Where(x => x.InCalf == true),
+            "no" => query.Where(x => x.InCalf == false),
+            "empty" => query.Where(x => !x.InCalf.HasValue),
+            _ => query
+        };
+
+        return query;
+    }
+
+    private IEnumerable<Implant> SortedImplants()
+    {
+        var query = FilteredImplants();
+
+        return (sortColumn, sortDesc) switch
+        {
+            (nameof(Implant.Id), false) => query.OrderBy(x => x.Id),
+            (nameof(Implant.Id), true) => query.OrderByDescending(x => x.Id),
+            ("Program", false) => query.OrderBy(x => x.Program != null ? x.Program.Name : ""),
+            ("Program", true) => query.OrderByDescending(x => x.Program != null ? x.Program.Name : ""),
+            ("Owner", false) => query.OrderBy(x => x.Owner != null ? x.Owner.Name : ""),
+            ("Owner", true) => query.OrderByDescending(x => x.Owner != null ? x.Owner.Name : ""),
+            (nameof(Implant.OpuDate), false) => query.OrderBy(x => x.OpuDate),
+            (nameof(Implant.OpuDate), true) => query.OrderByDescending(x => x.OpuDate),
+            (nameof(Implant.FertDate), false) => query.OrderBy(x => x.FertDate),
+            (nameof(Implant.FertDate), true) => query.OrderByDescending(x => x.FertDate),
+            (nameof(Implant.FreezingDate), false) => query.OrderBy(x => x.FreezingDate),
+            (nameof(Implant.FreezingDate), true) => query.OrderByDescending(x => x.FreezingDate),
+            (nameof(Implant.StrawId), false) => query.OrderBy(x => x.StrawId),
+            (nameof(Implant.StrawId), true) => query.OrderByDescending(x => x.StrawId),
+            ("Donor", false) => query.OrderBy(x => x.Donor != null ? x.Donor.Code : ""),
+            ("Donor", true) => query.OrderByDescending(x => x.Donor != null ? x.Donor.Code : ""),
+            ("Bull", false) => query.OrderBy(x => x.Bull != null ? x.Bull.Name : ""),
+            ("Bull", true) => query.OrderByDescending(x => x.Bull != null ? x.Bull.Name : ""),
+            ("Semen", false) => query.OrderBy(x => x.SemenType != null ? x.SemenType.Name : ""),
+            ("Semen", true) => query.OrderByDescending(x => x.SemenType != null ? x.SemenType.Name : ""),
+            ("Preservation", false) => query.OrderBy(x => x.PreservationMethod != null ? x.PreservationMethod.Name : ""),
+            ("Preservation", true) => query.OrderByDescending(x => x.PreservationMethod != null ? x.PreservationMethod.Name : ""),
+            (nameof(Implant.ImplantDate), false) => query.OrderBy(x => x.ImplantDate),
+            (nameof(Implant.ImplantDate), true) => query.OrderByDescending(x => x.ImplantDate),
+            (nameof(Implant.RecipId), false) => query.OrderBy(x => x.RecipId),
+            (nameof(Implant.RecipId), true) => query.OrderByDescending(x => x.RecipId),
+            ("Technician", false) => query.OrderBy(x => x.Technician != null ? x.Technician.Name : ""),
+            ("Technician", true) => query.OrderByDescending(x => x.Technician != null ? x.Technician.Name : ""),
+            (nameof(Implant.InCalf), false) => query.OrderBy(x => x.InCalf),
+            (nameof(Implant.InCalf), true) => query.OrderByDescending(x => x.InCalf),
+            _ => query
+        };
+    }
+
+    private IEnumerable<Implant> PagedImplants()
+    {
+        var sorted = SortedImplants().ToList();
+        if (pageIndex > TotalPages - 1)
+        {
+            pageIndex = TotalPages - 1;
+        }
+        if (pageIndex < 0) pageIndex = 0;
+        var start = pageIndex * pageSize;
+        return sorted.Skip(start).Take(pageSize);
+    }
+
+    private void SetSort(string column)
+    {
+        if (sortColumn == column)
+        {
+            sortDesc = !sortDesc;
+        }
+        else
+        {
+            sortColumn = column;
+            sortDesc = false;
+        }
+
+        pageIndex = 0;
+    }
+
+    private string SortIcon(string column)
+    {
+        if (sortColumn != column) return "";
+        return sortDesc ? "v" : "^";
+    }
+
+    private int TotalPages
+    {
+        get
+        {
+            var count = FilteredImplants().Count();
+            return Math.Max(1, (int)Math.Ceiling(count / (double)pageSize));
+        }
+    }
+
+    private int CurrentPage => pageIndex + 1;
+    private bool IsFirstPage => pageIndex <= 0;
+    private bool IsLastPage => pageIndex >= TotalPages - 1;
+
+    private void NextPage()
+    {
+        if (!IsLastPage) pageIndex++;
+    }
+
+    private void PrevPage()
+    {
+        if (!IsFirstPage) pageIndex--;
+    }
+
+    private async Task SaveAsync()
+    {
+        error = null;
+        try
+        {
+            if (editingId.HasValue)
+            {
+                await Api.UpdateImplantAsync(editingId.Value, form);
+            }
+            else
+            {
+                await Api.CreateImplantAsync(form);
+            }
+
+            await RefreshImplantsAsync();
+            ResetForm();
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+    }
+
+    private async Task DeleteAsync(int id)
+    {
+        error = null;
+        try
+        {
+            var confirmDelete = await JS.InvokeAsync<bool>("confirm", $"Are you sure you want to delete implant #{id}?");
+            if (!confirmDelete)
+            {
+                return;
+            }
+
+            await Api.DeleteImplantAsync(id);
+            await RefreshImplantsAsync();
+            if (selectedId == id)
+            {
+                ResetForm();
+            }
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+    }
+
+    private async Task RefreshImplantsAsync()
+    {
+        implants = await Api.GetImplantsAsync();
+        pageIndex = 0;
+    }
+
+    private void StartEdit(Implant item)
+    {
+        selectedId = item.Id;
+        editingId = item.Id;
+        form = new ImplantUpsert
+        {
+            ProgramId = item.ProgramId,
+            OwnerId = item.OwnerId,
+            OpuDate = item.OpuDate,
+            FertDate = item.FertDate,
+            FreezingDate = item.FreezingDate,
+            StrawId = item.StrawId,
+            DonorId = item.DonorId,
+            BullId = item.BullId,
+            SemenTypeId = item.SemenTypeId,
+            PreservationMethodId = item.PreservationMethodId,
+            ImplantDate = item.ImplantDate,
+            RecipId = item.RecipId,
+            TechnicianId = item.TechnicianId,
+            InCalf = item.InCalf
+        };
+    }
+
+    private void ResetForm()
+    {
+        selectedId = null;
+        editingId = null;
+        form = new ImplantUpsert();
+    }
+
+    private void ClearColumnFilters()
+    {
+        idColumnFilter = "";
+        programColumnFilter = "";
+        ownerColumnFilter = "";
+        opuDateColumnFilter = "";
+        fertDateColumnFilter = "";
+        freezingDateColumnFilter = "";
+        strawColumnFilter = "";
+        donorColumnFilter = "";
+        bullColumnFilter = "";
+        semenColumnFilter = "";
+        preservationColumnFilter = "";
+        implantDateColumnFilter = "";
+        recipColumnFilter = "";
+        technicianColumnFilter = "";
+        inCalfColumnFilter = "";
+        pageIndex = 0;
+    }
+
+    private void OnPageSizeChanged(ChangeEventArgs _)
+    {
+        pageIndex = 0;
+    }
+
+    private void OnOpuDateChanged(ChangeEventArgs _)
+    {
+        if (form.OpuDate.HasValue)
+        {
+            form.FertDate ??= form.OpuDate.Value.AddDays(1);
+            form.FreezingDate ??= form.OpuDate.Value.AddDays(8);
+        }
+    }
+
+    private static string FormatDate(DateTime? date) =>
+        date.HasValue ? date.Value.ToString("dd/MM/yyyy") : "";
+
+    private static bool ContainsIgnoreCase(string? value, string term) =>
+        !string.IsNullOrWhiteSpace(value) &&
+        value.Contains(term, StringComparison.OrdinalIgnoreCase);
+
+    private static bool DateMatches(DateTime? date, string term) =>
+        date.HasValue &&
+        date.Value.ToString("dd/MM/yyyy").Contains(term, StringComparison.OrdinalIgnoreCase);
+
+    private void OnRowSelected(Implant item)
+    {
+        if (!Auth.IsAdmin)
+        {
+            return;
+        }
+
+        StartEdit(item);
+    }
+
+    private async Task ExportExcelAsync()
+    {
+        var ids = SortedImplants().Select(x => x.Id).ToList();
+        var file = await Api.ExportImplantsExcelAsync(ids);
+        var fileName = $"implants-{DateTime.Now:yyyyMMdd-HHmmss}.xlsx";
+        var base64 = Convert.ToBase64String(file);
+        await JS.InvokeVoidAsync(
+            "reproDownloadBase64File",
+            fileName,
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            base64);
+    }
+}

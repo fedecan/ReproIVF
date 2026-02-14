@@ -1,0 +1,54 @@
+@page "/login"
+@inject AuthService Auth
+@inject NavigationManager Nav
+
+<PageTitle>Login</PageTitle>
+
+<section class="panel login-panel">
+    <h1>Login</h1>
+
+    @if (!string.IsNullOrWhiteSpace(error))
+    {
+        <p class="error">@error</p>
+    }
+
+    <EditForm Model="@model" OnValidSubmit="LoginAsync">
+        <div class="grid">
+            <label>Username</label>
+            <InputText @bind-Value="model.Username" />
+
+            <label>Password</label>
+            <InputText @bind-Value="model.Password" type="password" />
+        </div>
+
+        <div class="actions">
+            <button type="submit">Sign in</button>
+        </div>
+    </EditForm>
+</section>
+
+@code {
+    private ReproIVF.Shared.Auth.LoginRequest model = new();
+    private string? error;
+
+    protected override void OnInitialized()
+    {
+        if (Auth.IsAuthenticated)
+        {
+            Nav.NavigateTo("/", replace: true);
+        }
+    }
+
+    private async Task LoginAsync()
+    {
+        error = null;
+        var ok = await Auth.LoginAsync(model.Username, model.Password);
+        if (!ok)
+        {
+            error = "Invalid username or password.";
+            return;
+        }
+
+        Nav.NavigateTo("/", replace: true);
+    }
+}
