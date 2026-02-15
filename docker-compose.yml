@@ -1,0 +1,51 @@
+name: reproivf
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: reproivf-sqlserver
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Express"
+      MSSQL_SA_PASSWORD: "${MSSQL_SA_PASSWORD:-102401}"
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'echo > /dev/tcp/127.0.0.1/1433'"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+
+  webapi:
+    build:
+      context: .
+      dockerfile: ReproIVF.WebAPI/Dockerfile
+    container_name: reproivf-webapi
+    depends_on:
+      sqlserver:
+        condition: service_healthy
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Production"
+      ConnectionStrings__DefaultConnection: "Server=sqlserver,1433;Database=ReproIVF;User Id=sa;Password=${MSSQL_SA_PASSWORD:-102401};Encrypt=True;TrustServerCertificate=True;"
+      Jwt__Key: "${JWT_KEY:-Q3v9mL2xZ7pR1tK8wN4yF6dS0aH5jU9cB2eT7gV1nM8rP4qL6xD3fK0sW5yH2zJ}"
+      Jwt__Issuer: "ReproIVF.WebAPI"
+      Jwt__Audience: "ReproIVF.Client"
+      # Empty by default because browser traffic goes through same-origin /api proxy in client container.
+      CORS_ALLOWED_ORIGINS: "${CORS_ALLOWED_ORIGINS:-}"
+      DISABLE_HTTPS_REDIRECTION: "true"
+    restart: unless-stopped
+
+  client:
+    build:
+      context: .
+      dockerfile: ReproIVF.Client/Dockerfile
+    container_name: reproivf-client
+    depends_on:
+      - webapi
+    ports:
+      - "80:80"
+    restart: unless-stopped
+
+volumes:
+  sqlserver-data:

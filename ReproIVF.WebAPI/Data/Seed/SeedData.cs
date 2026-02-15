@@ -96,7 +96,7 @@ public static class SeedData
 
         if (!db.Users.Any())
         {
-            var (adminHash, adminSalt) = PasswordHasher.HashPassword("Admin123!");
+            var (adminHash, adminSalt) = PasswordHasher.HashPassword("admin");
             var (clientHash, clientSalt) = PasswordHasher.HashPassword("Client123!");
 
             db.Users.AddRange(

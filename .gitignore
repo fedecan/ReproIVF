@@ -155,3 +155,4 @@ StyleCopReport.xml
 /ReproIVF.Shared/bin
 /ReproIVF.Shared/bin
 /ReproIVF.WebAPI/bin
+/ReproIVF.Shared/obj

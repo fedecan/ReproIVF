@@ -20,7 +20,7 @@ BEGIN
     INSERT INTO dbo.Users (Username, PasswordHash, PasswordSalt, Role)
     VALUES (
         'admin',
-        'HPK9A2zspQ2aFMr3TFhlOwIvcg5iH8D7Sa8FyVmg6ts=',
+        'hx+gR3IccFxzVV37zSlhW3jEtqqNDQBLRsxj5A36TmA=',
         '0ss0OSmVN3xN8f+wKv2I1g==',
         'Admin'
     );
