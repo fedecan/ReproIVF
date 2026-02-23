@@ -74,6 +74,7 @@ var exactOrigins = allowedOrigins
 var wildcardOrigins = allowedOrigins
     .Where(origin => origin.Contains('*'))
     .ToArray();
+var allowLocalhostOriginsInDevelopment = builder.Environment.IsDevelopment();
 var disableHttpsRedirection =
     builder.Configuration.GetValue<bool>("HttpsRedirection:Disable") ||
     string.Equals(
@@ -85,7 +86,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowClient", policy =>
         policy.SetIsOriginAllowed(origin =>
-            IsAllowedOrigin(origin, exactOrigins, wildcardOrigins))
+            IsAllowedOrigin(origin, exactOrigins, wildcardOrigins, allowLocalhostOriginsInDevelopment))
             .AllowAnyHeader()
             .AllowAnyMethod());
 });
@@ -102,7 +103,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseForwardedHeaders();
-if (!disableHttpsRedirection)
+if (!disableHttpsRedirection && !app.Environment.IsDevelopment())
 {
     app.UseHttpsRedirection();
 }
@@ -112,11 +113,17 @@ app.UseCors("AllowClient");
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.MapGet("/", () => Results.Ok(new { status = "OK", service = "ReproIVF.WebAPI" }))
+    .AllowAnonymous();
 app.MapControllers();
 
 app.Run();
 
-static bool IsAllowedOrigin(string origin, HashSet<string> exactOrigins, string[] wildcardOrigins)
+static bool IsAllowedOrigin(
+    string origin,
+    HashSet<string> exactOrigins,
+    string[] wildcardOrigins,
+    bool allowLocalhostOriginsInDevelopment)
 {
     var normalizedOrigin = origin.Trim().TrimEnd('/');
     if (exactOrigins.Contains(normalizedOrigin))
@@ -127,6 +134,14 @@ static bool IsAllowedOrigin(string origin, HashSet<string> exactOrigins, string[
     if (!Uri.TryCreate(normalizedOrigin, UriKind.Absolute, out var requestOrigin))
     {
         return false;
+    }
+
+    if (allowLocalhostOriginsInDevelopment &&
+        (string.Equals(requestOrigin.Host, "localhost", StringComparison.OrdinalIgnoreCase) ||
+         string.Equals(requestOrigin.Host, "127.0.0.1", StringComparison.OrdinalIgnoreCase) ||
+         string.Equals(requestOrigin.Host, "::1", StringComparison.OrdinalIgnoreCase)))
+    {
+        return true;
     }
 
     foreach (var wildcard in wildcardOrigins)
