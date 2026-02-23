@@ -1,0 +1,15 @@
+Clients:
+Agregar Codigo
+Donors:
+Id 
+LifeTimeID (en vez de Code)
+Owner (seleccionable)
+Sacar Embryo Count
+
+Implants:
+En New => Agregar Cantidad de embriones  ej: 3 se tienen que crear 3 registros iguales con StrawID i, 2 y 3.
+StrawID: queda igual
+Incalf, tech, implantdate tienen que pueder estar en blanco
+
+
+Sacar todos los IDs de las listas

@@ -1,0 +1,18 @@
+winget install Cloudflare.cloudflared
+cloudflared tunnel login
+
+Backend:
+cloudflared tunnel --no-autoupdate --url http://localhost:5123 --loglevel debug
+
+Frontend:
+https://dash.cloudflare.com/3080cdcb3c4c73ce95dd6abcad90422a/pages/new/provider/github
+Deploy command: sh ReproIVF.Client/build.sh
+Output: output/wwwroot
+
+Para full solucion en la nube => https://signup.cloud.oracle.com/ (Oracle Cloud free)
+
+
+docker version
+  docker context ls
+  docker compose up -d --build
+
