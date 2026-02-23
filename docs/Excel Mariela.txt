@@ -1,0 +1,30 @@
+Las entidades principales en su mayoria son 1 a N.
+Las pestanas de la cual se nutre la grilla principal esta explicada a continuacion. Cada pestana debe ser una "Clase".
+Por el momento no hay validaciones importantes, eso lo vemos luego.
+Usar convencion standard para nombrar las clases/tablas.
+Si quiero que generes los seed data para los datos seleccionables.
+
+Te paso la explicacion de las columnas de la grilla principal en la pestana "Implants"
+Columnas:
+
+- Program: seleccion de opciones (sacar las opciones de un distinct de esta columna => ACCELERATE, CET, DISCOVERY, GENERATE, PRIVATE, SLICK), puede haber mas a futuro.
+- Owner: Seleccionable de la pestana "Clients"
+- Opu Date: Ingreso de fecha manual
+- Fert Date: Ingreso de fecha manual, por defecto +1 day
+- Freezing date:  Ingreso de fecha manual, por defecto +8 days
+- Straw ID: Row contador de embriones
+- Donor ID: Seleccionable de pestana "Donors"
+- Bull Code / Mating: salen de pestana "Bulls"
+- Semen: son 3 opciones (conv/sex/Empty)
+- Fresh/DT/Vit: son esas 3 opciones
+- Implant date: Fecha manual 
+- ReccipID: Texto libre
+- Technician: Viene de una lista seleccionable
+- In Calf: (yes/no)
+
+Faltaria agregar al inicio una columna "ID"
+
+No quiero que me preguntes por cada paso que avances salvo que sea algo critico o importante. Luego de que terminus yo reviso y te digo si hay que modificar algo.
+
+Decime como te doy el archivo excel.
+C:\Users\fedec\Downloads\ReproIVF Embryo Inventory 2025 (transfered).xlsx
